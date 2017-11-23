@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>无标题文档</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
+
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+<header>
+
+    <div class="header-content clearfix">
+
+        <a href="./index.html" title="巡查蝠"><img src="images/logo%20(1).png" alt="巡查蝠logo"></a>
+
+        <label for="header-items-toggle" class="header-items-toggle">Menu</label>
+
+        <input id="header-items-toggle" class="option-checkbox" type="checkbox"/>
+
+        <nav>
+            <a href="./index.html" class="header-nav-item header-home">首页</a>
+            <a href="./ability.html" class="header-nav-item header-ability">功能</a>
+            <a href="./price.html" class="header-nav-item header-price">价格</a>
+            <a href="./about.html" class="header-nav-item header-about">关于</a>
+        </nav>
+
+    </div>
+
+
+</header>
+<div class="sea_wave">
+    <div>
+    <span class="shouXie"><h2>手写纸签到</h2> <br><em>签到信息易丢失、篡改；数据难汇总</em> </span>
+
+    <span class="xunGeng"><h2>巡更棒</h2> <br><em>前期投入，后期维护成本高；缺乏时效性；可获取信息单一；上传数据需匹配底座</em> </span>
+    <span class="xunCha">
+                <h2>巡查蝠</h2> <br>
+                <em>信息不易丢失，无需企业投入硬件成本；信息反馈渠道多样，及时性高；支持移动办公、实时追踪</em>
+            </span>
+    <span class="weiLai">
+                <h2>未来</h2> <br>
+                <em>我们将持续优化、与时俱进，在巡更领域做大做强。</em>
+    </span>
+    </div>
+    <canvas id="wave" width="1226" height="500"
+            style="width: 1226px; height: 200px;position: absolute;bottom: 200px;"></canvas>
+    <div class="canvasBg"></div>
+</div>
+<div class="work">
+
+</div>
+<div class="loadingApp">
+    <button>下载app</button>
+</div>
+</body>
+
+<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        var userAgent = navigator.userAgent;
+        var reg = /Chrome\/[0-9]{2}/g;
+        if (userAgent.search(reg) > 0) {
+            var bStr = reg.exec(userAgent)[0];
+            var bArr = bStr.split("/");
+            var chromeV = bArr[1];
+            var $chromeVersion = "chrome" + chromeV;
+            $("html").addClass($chromeVersion)
+        }
+        var exportObj = {};
+
+
+        $("body").animate({
+            scrollTop: 0
+        }, 0);
+
+        function initAll() {
+
+            if ($.browser.msie && parseInt($.browser.version) < 10) {
+                return
+            }
+
+
+            function SiriWave(opt) {
+                this.opt = opt || {};
+                this.K = 1;
+                this.F = 15;
+                this.speed = this.opt.speed || 0.1;
+                this.noise = this.opt.noise || 30;
+                this.phase = this.opt.phase || 0;
+                if (!window.devicePixelRatio) {
+                    devicePixelRatio = 1
+                }
+                this.width = devicePixelRatio * (this.opt.width || 320);
+                this.height = devicePixelRatio * (this.opt.height || 100);
+                this.MAX = (this.height / 2) - 4;
+                this.canvas = $("#wave")[0];
+                this.canvas.width = this.width;
+                this.canvas.height = this.height;
+                this.canvas.style.width = (this.width / devicePixelRatio) + "px";
+                this.canvas.style.height = (this.height / devicePixelRatio) + "px";
+                this.ctx = this.canvas.getContext("2d");
+                this.run = false
+            }
+
+            SiriWave.prototype = {
+                _globalAttenuationFn: function (x) {
+                    return Math.pow(this.K * 4 / (this.K * 4 + Math.pow(x, 4)), this.K * 2)
+                },
+                _drawLine: function (attenuation, color, width, noise, F) {
+                    this.ctx.moveTo(0, 0);
+                    this.ctx.beginPath();
+                    this.ctx.strokeStyle = color;
+                    this.ctx.lineWidth = width || 1;
+                    var x, y;
+                    F = F || this.F;
+                    noise = noise * this.MAX || this.noise;
+                    for (var i = -this.K; i <= this.K; i += 0.01) {
+                        i = parseFloat(parseFloat(i).toFixed(2));
+                        x = this.width * ((i + this.K) / (this.K * 2));
+                        y = this.height / 2 + noise * Math.pow(Math.sin(i * 10 * attenuation), 1) * Math.sin(F * i - this.phase);
+                        this.ctx.lineTo(x, y)
+                    }
+                    this.ctx.lineTo(this.width, this.height);
+                    this.ctx.lineTo(0, this.height);
+                    this.ctx.fillStyle = color;
+                    this.ctx.fill()
+                },
+                _clear: function () {
+                    this.ctx.globalCompositeOperation = "destination-out";
+                    this.ctx.fillRect(0, 0, this.width, this.height);
+                    this.ctx.globalCompositeOperation = "source-over"
+                },
+                _draw: function () {
+                    if (!this.run) {
+                        return
+                    }
+                    this.phase = (this.phase + this.speed) % (Math.PI * 64);
+                    this._clear();
+
+//                    this._drawLine(0.1, "#bde0ff", 3, 0.4, 8);
+                    this._drawLine(0.2, "#91c8fb", 1, 0.2, 6);
+                    this._drawLine(0.1, "#0788ff", 1, 0.35, 4);
+                    clearAnimationFrame = requestAnimationFrame(this._draw.bind(this), 1000)
+                },
+                start: function () {
+                    this.phase = 0;
+                    this.run = true;
+                    this._draw()
+                },
+                stop: function () {
+                    this.run = false;
+                    this._clear()
+                },
+                setNoise: function (v) {
+                    this.noise = Math.min(v, 1) * this.MAX
+                },
+                setSpeed: function (v) {
+                    this.speed = v
+                },
+                set: function (noise, speed) {
+                    this.setNoise(noise);
+                    this.setSpeed(speed)
+                },
+                bl: function (val) {
+                    return 1920 / 15
+                }
+            };
+
+            var SW = new SiriWave({
+                width: $(window).width(),
+                height: 200,
+                container: $(".page2")[1]
+            });
+            SW.setSpeed(0.01);
+            SW.start();
+            exportObj.SiriWave = SiriWave;
+//            canvasSty();
+
+
+//            exportObj.canvasSty = canvasSty
+        }
+
+        initAll();
+
+
+    });
+
+
+</script>
+<script>
+    $(function () {
+
+        $('.sea_wave .shouXie').click(function () {
+            $(this).animate({
+                height:'1.45rem',
+                width:'1.45rem',
+            },1000).siblings().animate({
+                height:'0.55rem',
+                width:'0.55rem',
+            },1000);
+            $('.sea_wave .xunGeng').css({
+                left:'1.55rem'
+            });
+            $('.sea_wave .xunCha').css({
+                left:'2.35rem'
+            });
+            $('.sea_wave .weiLai').css({
+                left:'3rem'
+            });
+
+            $(this).find('h2').css({
+                lineHeight:'0.1rem',
+                display:'block'
+            });
+            $(this).find('em').show();
+            $(this).siblings().find('em').hide();
+
+
+
+        });
+        $('.sea_wave .xunGeng').click(function () {
+            $(this).animate({
+                height:'1.45rem',
+                width:'1.45rem',
+                left:'0.65rem'
+            },1000).siblings().animate({
+                height:'0.55rem',
+                width:'0.55rem',
+            },1000);
+
+            $('.sea_wave .xunCha').css({
+                left:'2.35rem'
+            });
+            $('.sea_wave .weiLai').css({
+                left:'3rem'
+            });
+
+            $(this).find('h2').css({
+                lineHeight:'0.1rem',
+                display:'block'
+            });
+            $(this).find('em').show();
+            $(this).siblings().find('em').hide();
+
+
+
+        });
+
+
+    })
+</script>
+</html>
