@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关于</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
+
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="css/price.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="js/header.js"></script>
+</head>
+<body>
+<header>
+
+    <div class="header-content clearfix">
+
+        <a href="./index.html" title="巡查蝠" class="fl"><img src="images/logo.png" alt="巡查蝠logo">
+            <h2>巡查蝠</h2></a>
+
+        <span class="fr navShow"><img src="./images/Group%202.png" alt=""></span>
+
+        <nav>
+            <a href="./index.html" class="header-nav-item ">首页</a>
+            <a href="./ability.html" class="header-nav-item header-ability">功能</a>
+            <a href="./price.html" class="header-nav-item active">价格</a>
+            <a href="./about.html" class="header-nav-item header-about">关于</a>
+        </nav>
+
+    </div>
+
+
+</header>
+<div class="price_fir">
+    <h4>￥<span>0.1</span></h4>
+    <p>每天一毛钱 = 井然有序</p>
+</div>
+
+<div class="price_sec">
+    <div class="customized_top">
+        <span class="ordinary">普通版</span>
+        <span class="ordinaryNot">定制版</span>
+    </div>
+    <div class="customized_ct">
+        <ul>
+            <li><img src="../images/11.png" alt="">巡查蝠·产品使用手册</li>
+            <li><img src="../images/22.png" alt="">巡查蝠·管理人员账号</li>
+            <li><img src="../images/33.png" alt="">技术维护</li>
+            <li><img src="../images/44.png" alt="">巡更系统软件</li>
+            <li class="customized_ct_lt_color"><img src="../images/55.png" alt="">设备联网</li>
+            <li class="customized_ct_lt_color"><img src="../images/66.png" alt="">开发接口</li>
+            <li class="customized_ct_lt_color"><img src="../images/77.png" alt="">定制化修改业务流程</li>
+        </ul>
+        <p class="customized_ct_lt_more">更多服务可查看定制版</p>
+
+    </div>
+</div>
+
+
+<div class="last">
+    <p>© Copyright © 2014广州甲子智能科技有限公司</p>
+    <p>All rights reserved | 粤ICP备14021096号-4</p>
+    <p>服务热线: 020-28989907</p>
+</div>
+
+
+<div class="loadingApp">
+    <button>下载app</button>
+</div>
+</body>
+
+<script>
+
+    $(function () {
+        $('.ordinaryNot').hover(function () {
+            $(this).css({
+                background: '#c8944e',
+                color: '#fff'
+            });
+            $('.customized_top span').css({
+                border: '1px solid #c7944e'
+            });
+            $('.ordinary').css({
+                background: '#fff',
+                color: '#c7944e'
+            });
+
+            $('.customized_ct_lt_color').show();
+            $('.customized_ct_lt_more').hide();
+            $('.price_sec').css({
+                background: 'url("./images/11 copy.png") no-repeat',
+                backgroundSize: 'cover'
+            });
+        });
+
+        $('.ordinary').hover(function () {
+
+            $(this).css({
+                background: '#2263f0',
+                color: '#fff'
+            });
+            $('.customized_top span').css({
+                border: '1px solid #2263f0'
+            });
+            $('.ordinaryNot').css({
+                background: '#fff',
+                color: '#2263f0'
+            })
+
+            $('.customized_ct_lt_color').hide();
+            $('.customized_ct_lt_more').show();
+            $('.price_sec').css({
+                background: 'url("./images/11 copy 2.png")no-repeat',
+                backgroundSize: 'cover'
+            });
+        })
+    })
+
+</script>
+
+</html>
