@@ -2,7 +2,7 @@ $(document).ready(function () {
 
 
     // 检测到微信就提醒
-    var btn1_remind = document.getElementById('JdownApp');//下载一
+    var btn1_remind = document.getElementById('loadingAppGo');//下载一
     weixinTip(btn1_remind);
 
     
